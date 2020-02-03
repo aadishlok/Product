@@ -1,38 +1,62 @@
 const express= require('express');
-const router= express().Router();
+const router= express.Router();
 
 const Product= require('../../models/Product');
 
 router.get('/test', (req, res) => res.send('Route testing'));
 
 router.get('/', (req, res) => {
-    Product.find()
-        .then(product => res.json(products))
-        .catch(err => res.status(404).json({error: 'No products listed'}))
+    Product.find(req.body, (error, response) => {
+        if(error) {
+            console.log(error);
+        } else {
+            res.send(response);
+           console.log(response);
+        }
+    });
 });
 
 router.post('/', (req, res) => {
-    Product.create(req.body)
-        .then(product => res.json({response: 'Product successfully added'}))
-        .catch(err => res.status(404).json({error: 'Unable to add the product'}))
+    console.log('Create: '+JSON.stringify(req.body));
+    Product.create(req.body, (error, response) => {
+        if(error) {
+            console.log(error);
+        } else {
+            console.log(response);
+        }
+    })
 });
 
 router.get('/:id', (req, res) => {
-    Product.findById(req.params.id)
-        .then(product => res.json(product))
-        .catch(err => res.status(404).json({error: 'Book not found'}))
+    Product.findById(req.params.id, (error, response) => {
+        if(error) {
+            console.log(error);
+        } else {
+            res.send(response);
+            console.log(response);
+        }
+    })
 });
 
 router.put('/:id', (req,res) => {
-    Product.findByIdAndUpdate(req.params.id, req.body)
-        .then(product => res.json({response: 'Product successfully updated'}))
-        .catch(err => res.status(404).json({error: 'Unable to update the product'}))
+    Product.findByIdAndUpdate(req.params.id, req.body, (error, response) => {
+        if(error) {
+            console.log(error);
+        } else {
+            console.log(response);
+        }
+    })
 });
 
-route.delete('/:id', (req, res) => {
-    Product.findByIdAndDelete(req.params.id)
-        .then(product => res.json({response: 'Product successfully removed'}))
-        .catch(err => res.status(404).json({error: 'Unable to remove product'}))
+router.delete('/:id', (req, res) => {
+    console.log("Delete: "+req.params.id);
+    Product.findByIdAndDelete(req.params.id, (error, response) => {
+        if(error) {
+            console.log(error);
+        } else {
+            console.log(response);
+        }
+    })
 });
 
 module.exports= router;

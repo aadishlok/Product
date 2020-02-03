@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://productUser:productUser@react-product-database-jrux3.mongodb.net/test?retryWrites=true&w=majority"
+}
